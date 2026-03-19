@@ -4,6 +4,8 @@ A privacy-first document redaction tool for legal professionals. Built to anonym
 
 > **Note:** The NER models used (Flair `ner-german-legal` + `ner-german-large`) are optimized for **German-language documents**. The tool interface is also in German.
 
+[![Demo Video](https://img.shields.io/badge/YouTube-Demo_Video-red?logo=youtube)](https://youtu.be/vP9q7-XNFMI)
+
 ## What's New in V3
 
 - **Flair NER Integration** — Replaced spaCy with two stacked Flair models (`ner-german-legal` + `ner-german-large`) for significantly improved entity recognition in German legal texts
@@ -11,7 +13,8 @@ A privacy-first document redaction tool for legal professionals. Built to anonym
 - **Three Sensitivity Levels** — *Konservativ* (aggressive), *Standard*, and *Liberal* (permissive) to control how much gets redacted
 - **Learning Layer** — Persistent correction system: mark entities as "never redact" or "always redact", corrections are saved across sessions
 - **Improved MSG Handling** — MSG files are now processed via text extraction → NER redaction → PDF generation (instead of primitive MSG→PDF→redact)
-- **Juristic Person Handling** — Organizations (juristische Personen) are preserved at *Konservativ* sensitivity, since they are not covered by DSGVO/GDPR
+- **Juristic Person Toggle** — Independent checkbox to control whether organizations (juristische Personen) are redacted or preserved, since they are not covered by DSGVO/GDPR
+- **Grundbuch Fraction Protection** — Land registry fractions (e.g. `128/542`) are detected and preserved during redaction
 - **Whitelist System** — Customizable whitelist of terms that should never be redacted (e.g. court names, authorities)
 
 ## How It Works
@@ -49,8 +52,8 @@ Supported file formats: **PDF**, **DOCX**, **DOC**, **MSG**
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/HeinzTempl/pre_ai_redaction_workflow_legal_professoinal_V2.git
-   cd pre_ai_redaction_workflow_legal_professoinal_V2
+   git clone https://github.com/HeinzTempl/pre_ai_redaction_workflow_legal_professional_V3.git
+   cd pre_ai_redaction_workflow_legal_professional_V3
    ```
 
 2. **Create a virtual environment**
@@ -106,9 +109,11 @@ Redacted files are saved in a `redacted` subfolder inside the input folder. Conv
 
 | Level | Behavior |
 |-------|----------|
-| **Konservativ** | Maximum redaction. All detected entities redacted. Organizations (juristische Personen) are **preserved**. |
-| **Standard** | Balanced. High-confidence entities redacted, borderline cases skipped. |
-| **Liberal** | Minimal. Only very high-confidence detections are redacted. |
+| **Konservativ** | Maximum redaction. All detected entities redacted. Confidence threshold: 0.90. |
+| **Standard** | Balanced. High-confidence entities redacted, borderline cases skipped. Confidence threshold: 0.80. |
+| **Liberal** | Minimal. Only very high-confidence detections are redacted. Confidence threshold: 0.60. |
+
+Juristic persons (organizations) can be independently toggled via the "Juristische Personen NICHT schwärzen" checkbox — regardless of sensitivity level.
 
 ## Learning Layer
 
