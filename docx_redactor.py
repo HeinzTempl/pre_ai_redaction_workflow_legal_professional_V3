@@ -298,7 +298,7 @@ def _should_skip_entity(ent_text, ent_label):
 # ==================== ENTITY MAPPER ====================
 
 class EntityMapper:
-    def __init__(self, sensitivity="standard"):
+    def __init__(self, sensitivity="standard", skip_org=True):
         self.person_mapping = {}
         self.org_mapping = {}
         self.loc_mapping = {}
@@ -306,10 +306,11 @@ class EntityMapper:
         self.org_counter = 0
         self.loc_counter = 0
         self.sensitivity = sensitivity
+        self.skip_org = skip_org
         self.confidence_threshold = SENSITIVITY_THRESHOLDS.get(sensitivity, 0.80)
         self.skipped_whitelist = []
         self.skipped_low_confidence = []
-        self.skipped_org_juristic = []  # Juristische Personen (bei konservativ übersprungen)
+        self.skipped_org_juristic = []  # Juristische Personen (übersprungen wenn skip_org=True)
 
     def get_placeholder(self, entity_text, entity_label):
         entity_text_clean = entity_text.strip()
@@ -546,8 +547,8 @@ def redact_ner(text, mapper):
             mapper.skipped_whitelist.append((ent_text, ent_label))
             continue
 
-        # 2. Juristische Personen bei konservativ nicht schwärzen
-        if ent_label == "ORG" and mapper.sensitivity == "konservativ":
+        # 2. Juristische Personen nicht schwärzen (wenn aktiviert)
+        if ent_label == "ORG" and mapper.skip_org:
             mapper.skipped_org_juristic.append((ent_text, ent_label))
             continue
 

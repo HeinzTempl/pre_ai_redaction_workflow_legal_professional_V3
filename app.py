@@ -70,6 +70,13 @@ selected_sensitivity_label = st.sidebar.radio(
 )
 selected_sensitivity = sensitivity_options[selected_sensitivity_label]
 
+# Juristische Personen
+skip_org = st.sidebar.checkbox(
+    "Juristische Personen NICHT schwärzen",
+    value=True,
+    help="Organisationen/Firmen haben kein Recht auf Datenschutz und werden standardmäßig nicht geschwärzt."
+)
+
 # Konvertierung
 convert_to_pdf = st.sidebar.checkbox(
     "DOCX-Dateien in PDF konvertieren",
@@ -154,7 +161,7 @@ if uploaded_files:
 
 # ==================== VERARBEITUNG ====================
 
-def process_files(uploaded_files, engine, sensitivity, convert_pdf, use_api_post):
+def process_files(uploaded_files, engine, sensitivity, convert_pdf, use_api_post, skip_org=True):
     """Hauptverarbeitungsfunktion — verarbeitet alle hochgeladenen Dateien."""
     from docx_redactor import (
         process_docx, process_docx_api, EntityMapper,
@@ -185,7 +192,7 @@ def process_files(uploaded_files, engine, sensitivity, convert_pdf, use_api_post
         with open(file_path, "wb") as f:
             f.write(uf.getbuffer())
 
-    mapper = EntityMapper(sensitivity=sensitivity)
+    mapper = EntityMapper(sensitivity=sensitivity, skip_org=skip_org)
     results = []
     pdf_files_to_process = []
     total_files = len(uploaded_files)
@@ -318,7 +325,7 @@ if uploaded_files:
         with st.spinner("Verarbeitung läuft..."):
             results, mapper = process_files(
                 uploaded_files, selected_engine, selected_sensitivity,
-                convert_to_pdf, use_api
+                convert_to_pdf, use_api, skip_org=skip_org
             )
 
         # Ergebnisse im Session-State speichern

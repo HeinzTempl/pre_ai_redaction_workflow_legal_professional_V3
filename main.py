@@ -34,6 +34,11 @@ def main():
     set_sensitivity(sensitivity)
     print(f"  -> Sensitivität: {sensitivity}")
 
+    # Juristische Personen
+    skip_org_input = input("\nJuristische Personen (Firmen/Organisationen) NICHT schwärzen? (j/n) [j]: ").strip().lower()
+    skip_org = skip_org_input != 'n'
+    print(f"  -> Juristische Personen: {'nicht schwärzen' if skip_org else 'werden geschwärzt'}")
+
     # API-Schwärzung?
     use_api_initial = input("\nDokumente direkt über die OpenAI API schwärzen? (j/n): ").strip().lower() == 'j'
 
@@ -53,7 +58,7 @@ def main():
     os.makedirs(redacted_folder, exist_ok=True)
 
     # EntityMapper
-    mapper = EntityMapper(sensitivity=sensitivity)
+    mapper = EntityMapper(sensitivity=sensitivity, skip_org=skip_org)
 
     pdf_files_to_process = []
 

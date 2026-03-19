@@ -65,8 +65,8 @@ def redact_pdf(file_path, output_path, mapper=None):
             if is_whitelisted(ent_text, ent_label):
                 mapper.skipped_whitelist.append((ent_text, ent_label))
                 continue
-            # Juristische Personen bei konservativ nicht schwärzen
-            if ent_label == "ORG" and mapper.sensitivity == "konservativ":
+            # Juristische Personen nicht schwärzen (wenn aktiviert)
+            if ent_label == "ORG" and mapper.skip_org:
                 mapper.skipped_org_juristic.append((ent_text, ent_label))
                 continue
             if score < mapper.confidence_threshold:
