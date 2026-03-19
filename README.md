@@ -2,7 +2,7 @@
 
 A privacy-first document redaction tool for legal professionals. Built to anonymize sensitive data in legal documents **before** they are sent to any LLM or external service — ensuring full GDPR/DSGVO compliance.
 
-> **Note:** The NER models used (Flair `ner-german-legal` + `ner-german-large`) are optimized for **German-language documents**. The tool interface is also in German.
+> **Note:** The NER models used (Flair `ner-german-legal` + `ner-german-large`) are optimized for **German-language documents**. The tool interface is also in German. Compatible with **macOS, Windows, and Linux**.
 
 [![Demo Video](https://img.shields.io/badge/YouTube-Demo_Video-red?logo=youtube)](https://youtu.be/vP9q7-XNFMI)
 
