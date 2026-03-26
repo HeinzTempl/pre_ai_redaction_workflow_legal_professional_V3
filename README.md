@@ -134,6 +134,21 @@ The tool learns from your corrections:
 
 Corrections persist in `learned_entities.json` and are applied automatically in all future sessions.
 
+## Docker Deployment (Office-Wide Access)
+
+Run the tool as a permanent service on your server — everyone in the office accesses it via browser.
+
+```bash
+git clone https://github.com/HeinzTempl/pre_ai_redaction_workflow_legal_professional_V3.git
+cd pre_ai_redaction_workflow_legal_professional_V3
+docker build -t redaction-tool .
+docker run -d -p 8501:8501 --restart unless-stopped redaction-tool
+```
+
+Open `http://<server-ip>:8501` from any machine on your network. The `--restart unless-stopped` flag ensures the service starts automatically after a server reboot.
+
+> Docker Desktop is free for businesses with fewer than 250 employees and less than $10M annual revenue. See [docker_setup_guide.md](docker_setup_guide.md) for a detailed step-by-step guide.
+
 ## Optional: OpenAI API Integration
 
 For additional LLM-based redaction, set your API key:
