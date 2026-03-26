@@ -87,9 +87,18 @@ Supported file formats: **PDF**, **DOCX**, **DOC**, **MSG**
    libreoffice_path = "C:\\Program Files\\LibreOffice\\program\\soffice.exe"
    ```
 
-### Usage
+### Quick Start (recommended)
 
-**Web Frontend (recommended):**
+No terminal knowledge required — just double-click:
+
+- **Windows:** `install_and_run.bat`
+- **Mac/Linux:** `./install_and_run.sh`
+
+The script automatically creates a virtual environment, installs all dependencies, and starts the web interface. On first run, Flair NER models (~500 MB) are downloaded automatically.
+
+### Manual Usage
+
+**Web Frontend:**
 ```bash
 streamlit run app.py
 ```
